@@ -8,11 +8,13 @@ import time
 from waitress import serve
 import logging
 import traceback
+import secrets
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
+app.secret_key = os.environ.get('FLASK_SECRET_KEY', 'default_secret_key')
 
 # Set the path to the FFmpeg executable
 FFMPEG_PATH = os.path.join(os.getcwd(), "ffmpeg", "ffmpeg.exe")
@@ -172,22 +174,29 @@ def download():
 
 @app.route('/upload-cookies', methods=['POST'])
 def upload_cookies():
+    logging.debug("Upload cookies endpoint hit.")
+    
     if 'cookies' not in request.files:
         flash("No file part", "error")
+        logging.error("No file part in the request.")
         return redirect(url_for('index'))
     
     file = request.files['cookies']
+    logging.debug(f"File received: {file.filename}")
     
     if file.filename == '':
         flash("No selected file", "error")
+        logging.error("No selected file.")
         return redirect(url_for('index'))
     
     if file:
         try:
             file.save(COOKIES_PATH)
             flash("Cookies uploaded successfully!", "success")  # Flash success message
+            logging.info(f"Cookies uploaded and saved to {COOKIES_PATH}.")
         except Exception as e:
             flash(f"Error saving cookies: {str(e)}", "error")  # Flash error message
+            logging.error(f"Error saving cookies: {str(e)}")
         return redirect(url_for('index'))  # Redirect to the index page after upload
 
 def create_default_cookies():
@@ -201,6 +210,20 @@ def create_default_cookies():
 """
     with open(COOKIES_PATH, 'w') as f:
         f.write(default_cookies)
+
+@app.route('/test-upload', methods=['GET', 'POST'])
+def test_upload():
+    if request.method == 'POST':
+        file = request.files['testfile']
+        if file:
+            file.save(os.path.join(os.getcwd(), "testfile.txt"))
+            return "File uploaded successfully!"
+    return '''
+    <form method="post" enctype="multipart/form-data">
+        <input type="file" name="testfile">
+        <input type="submit">
+    </form>
+    '''
 
 # Error handler to log exceptions
 @app.errorhandler(Exception)
