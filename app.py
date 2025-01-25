@@ -21,6 +21,8 @@ VIDEO_DIR = os.getenv('VIDEO_DIR', os.path.join(os.getcwd(), "ALL_VIDEOS"))
 # Path to store uploaded cookies
 COOKIES_PATH = os.getenv('COOKIES_PATH', os.path.join(os.getcwd(), "cookies.txt"))
 
+logging.debug(f"COOKIES_PATH: {COOKIES_PATH}")  # Log the cookies path
+
 def find_ffmpeg():
     logging.debug(f"FFMPEG_PATH: {FFMPEG_PATH}")  # Log the environment variable
     if os.path.isfile(FFMPEG_PATH):
@@ -173,13 +175,19 @@ def upload_cookies():
     if 'cookies' not in request.files:
         flash("No file part", "error")
         return redirect(url_for('index'))
+    
     file = request.files['cookies']
+    
     if file.filename == '':
         flash("No selected file", "error")
         return redirect(url_for('index'))
+    
     if file:
-        file.save(COOKIES_PATH)
-        flash("Cookies uploaded successfully!", "success")  # Flash success message
+        try:
+            file.save(COOKIES_PATH)
+            flash("Cookies uploaded successfully!", "success")  # Flash success message
+        except Exception as e:
+            flash(f"Error saving cookies: {str(e)}", "error")  # Flash error message
         return redirect(url_for('index'))  # Redirect to the index page after upload
 
 def create_default_cookies():
