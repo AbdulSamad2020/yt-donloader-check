@@ -11,6 +11,17 @@
 <body>
     <div class="container">
         <h1>YouTube Video Downloader</h1>
+
+        <!-- Cookie Upload Section -->
+        <h2>Upload Your Cookies</h2>
+        <form id="upload-form" action="/upload-cookies" method="post" enctype="multipart/form-data">
+            <label for="cookies">Upload your cookies.txt file:</label>
+            <input type="file" name="cookies" id="cookies" required>
+            <button type="submit">Upload</button>
+        </form>
+
+        <!-- Video Download Section -->
+        <h2>Download Video</h2>
         <input type="text" id="url" placeholder="Enter YouTube URL" class="input-field">
         <button onclick="fetchFormats()" class="btn">Start Downloading</button>
         <div id="statusMessage" class="status-message"></div>
