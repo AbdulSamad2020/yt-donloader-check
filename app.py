@@ -18,7 +18,10 @@ FFMPEG_PATH = os.getenv('FFMPEG_PATH', r"E:\yt-donloader-check\ffmpeg\bin\ffmpeg
 VIDEO_DIR = os.getenv('VIDEO_DIR', os.path.join(os.getcwd(), "ALL_VIDEOS"))
 
 def find_ffmpeg():
-    return shutil.which(FFMPEG_PATH)
+    ffmpeg_path = shutil.which(FFMPEG_PATH)
+    if ffmpeg_path is None:
+        logging.error(f"FFmpeg not found at specified path: {FFMPEG_PATH}")
+    return ffmpeg_path
 
 def ensure_video_dir():
     if not os.path.exists(VIDEO_DIR):
