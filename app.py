@@ -87,11 +87,13 @@ def download_video(url, format_id, output_filename, trim_start, trim_end):
             'ffmpeg_location': ffmpeg_path,
             'format': f'{format_id}',  # Download only the video
             'outtmpl': video_output,
+            'cookiefile': 'path/to/cookies.txt',
         }
         audio_opts = {
             'ffmpeg_location': ffmpeg_path,
             'format': 'bestaudio',  # Download only the audio
             'outtmpl': audio_output,
+            'cookiefile': 'path/to/cookies.txt',
         }
 
         with yt_dlp.YoutubeDL(video_opts) as ydl:
