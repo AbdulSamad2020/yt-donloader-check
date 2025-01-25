@@ -14,7 +14,8 @@ logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 
-FFMPEG_PATH = os.getenv('FFMPEG_PATH', r"E:\yt-donloader-check\ffmpeg\bin\ffmpeg.exe")
+# Set the path to the FFmpeg executable
+FFMPEG_PATH = os.path.join(os.getcwd(), "ffmpeg", "ffmpeg.exe")
 VIDEO_DIR = os.getenv('VIDEO_DIR', os.path.join(os.getcwd(), "ALL_VIDEOS"))
 
 def find_ffmpeg():
