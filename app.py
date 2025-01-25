@@ -97,7 +97,7 @@ def download_video(url, format_id, output_filename, trim_start, trim_end):
             'cookiefile': COOKIES_PATH,  # Use the uploaded cookies
             'extractor_args': {
                 'youtube': {
-                    'visitor_data': 'YOUR_VISITOR_DATA_HERE'  # Replace with actual visitor data if needed
+                    'visitor_data': 'YOUR_ACTUAL_VISITOR_DATA_HERE'  # Replace with actual visitor data
                 }
             }
         }
@@ -108,7 +108,7 @@ def download_video(url, format_id, output_filename, trim_start, trim_end):
             'cookiefile': COOKIES_PATH,  # Use the uploaded cookies
             'extractor_args': {
                 'youtube': {
-                    'visitor_data': 'YOUR_VISITOR_DATA_HERE'  # Replace with actual visitor data if needed
+                    'visitor_data': 'YOUR_ACTUAL_VISITOR_DATA_HERE'  # Replace with actual visitor data if needed
                 }
             }
         }
