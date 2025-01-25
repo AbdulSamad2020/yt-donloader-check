@@ -1,2 +1,6 @@
 # Auto detect text files and perform LF normalization
 * text=auto
+ffmpeg/ffmpeg-n7.1-latest-win64-lgpl-7.1/bin/ffmpeg.zip filter=lfs diff=lfs merge=lfs -text
+ffmpeg.zip filter=lfs diff=lfs merge=lfs -text
+ffmpeg/ffmpeg-n7.1-latest-win64-lgpl-7.1/bin/ffprobe.exe filter=lfs diff=lfs merge=lfs -text
+ffmpeg/ffmpeg-n7.1-latest-win64-lgpl-7.1/bin/ffplay.exe filter=lfs diff=lfs merge=lfs -text
