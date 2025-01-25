@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, render_template
+from flask import Flask, request, jsonify, send_file, render_template, redirect, url_for
 import yt_dlp
 import os
 import shutil
@@ -167,7 +167,7 @@ def upload_cookies():
         return "No selected file", 400
     if file:
         file.save(COOKIES_PATH)
-        return "Cookies uploaded successfully", 200
+        return redirect(url_for('index'))  # Redirect to the index page after upload
 
 def create_default_cookies():
     # Example content for cookies.txt

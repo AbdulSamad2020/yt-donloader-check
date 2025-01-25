@@ -24,7 +24,17 @@
         <h2>Download Video</h2>
         <input type="text" id="url" placeholder="Enter YouTube URL" class="input-field">
         <button onclick="fetchFormats()" class="btn">Start Downloading</button>
-        <div id="statusMessage" class="status-message"></div>
+        <div id="statusMessage" class="status-message">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
+                <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+        </div>
         <div id="formats" class="formats-container"></div>
         <input type="text" id="output_filename" placeholder="Enter output filename" class="input-field">
         <div>
