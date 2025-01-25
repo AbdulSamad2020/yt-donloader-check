@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, send_file, render_template, redirect, url_for
+from flask import Flask, request, jsonify, send_file, render_template, redirect, url_for, flash
 import yt_dlp
 import os
 import shutil
@@ -91,12 +91,22 @@ def download_video(url, format_id, output_filename, trim_start, trim_end):
             'format': f'{format_id}',  # Download only the video
             'outtmpl': video_output,
             'cookiefile': COOKIES_PATH,  # Use the uploaded cookies
+            'extractor_args': {
+                'youtube': {
+                    'visitor_data': 'YOUR_VISITOR_DATA_HERE'  # Replace with actual visitor data if needed
+                }
+            }
         }
         audio_opts = {
             'ffmpeg_location': ffmpeg_path,
             'format': 'bestaudio',  # Download only the audio
             'outtmpl': audio_output,
             'cookiefile': COOKIES_PATH,  # Use the uploaded cookies
+            'extractor_args': {
+                'youtube': {
+                    'visitor_data': 'YOUR_VISITOR_DATA_HERE'  # Replace with actual visitor data if needed
+                }
+            }
         }
 
         with yt_dlp.YoutubeDL(video_opts) as ydl:
@@ -161,12 +171,15 @@ def download():
 @app.route('/upload-cookies', methods=['POST'])
 def upload_cookies():
     if 'cookies' not in request.files:
-        return "No file part", 400
+        flash("No file part", "error")
+        return redirect(url_for('index'))
     file = request.files['cookies']
     if file.filename == '':
-        return "No selected file", 400
+        flash("No selected file", "error")
+        return redirect(url_for('index'))
     if file:
         file.save(COOKIES_PATH)
+        flash("Cookies uploaded successfully!", "success")  # Flash success message
         return redirect(url_for('index'))  # Redirect to the index page after upload
 
 def create_default_cookies():
